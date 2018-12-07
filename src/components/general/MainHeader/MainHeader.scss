@@ -1,0 +1,20 @@
+.MainHeader {
+    background-color: #222;
+    nav, ul {
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+
+    ul {
+        justify-content: flex-end;
+        li {
+            padding: 0 1rem;
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+
+}

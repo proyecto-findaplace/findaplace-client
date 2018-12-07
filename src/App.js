@@ -5,6 +5,7 @@ import { Route, Link } from 'react-router-dom';
 
 import Login from './components/User/Login/Login';
 
+import MainHeader from './components/general/MainHeader/MainHeader';
 import Home from './components/general/Home/Home';
 
 class App extends Component {
@@ -12,18 +13,20 @@ class App extends Component {
     return (
       <div className="App">
 
-        <header id="main-header">
-          HEADER
-        </header>
+        <MainHeader/>
 
         <main id="main-container">      
 
           <Route exact path="/" component={Login}/>
           <Route exact path="/inicio" component={Home}/>
+          
           <Route exact path="/usuario/evento/nuevo" component={Home}/>
           <Route exact path="/usuario/eventos" component={Home}/>
           <Route exact path="/usuario/reservaciones" component={Home}/>
+          
           <Route exact path="/lugares" component={Home}/>
+          <Route exact path="/eventos" component={Home}/>
+          <Route exact path="/mi-cuenta" component={Home}/>
 
         </main>
 
