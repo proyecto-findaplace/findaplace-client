@@ -10,6 +10,11 @@ import Home from './components/general/Home/Home';
 
 import PlacesList from './components/Places/PlacesList/PlacesList';
 import EventsList from './components/Events/EventsList/EventsList';
+import ReservationsList from './components/Reservations/ReservationsList/ReservationsList';
+
+
+import EventNew from './components/Events/EventNew/EventNew';
+
 import UserAccount from './components/User/UserAccount/UserAccount';
 
 class App extends Component {
@@ -24,9 +29,9 @@ class App extends Component {
           <Route exact path="/" component={Login}/>
           <Route exact path="/inicio" component={Home}/>
           
-          <Route exact path="/usuario/evento/nuevo" component={Home}/>
-          <Route exact path="/usuario/eventos" component={Home}/>
-          <Route exact path="/usuario/reservaciones" component={Home}/>
+          <Route exact path="/usuario/evento/nuevo" component={EventNew}/>
+          <Route exact path="/usuario/eventos" component={EventsList}/>
+          <Route exact path="/usuario/reservaciones" component={ReservationsList}/>
           
           <Route exact path="/lugares" component={PlacesList}/>
           <Route exact path="/eventos" component={EventsList}/>

@@ -8,7 +8,7 @@ class MainHeader extends Component {
         return (
             <header id="main-header" className="MainHeader">
                 
-                <Link className="logo_container" to="/">
+                <Link className="logo_container" to="/inicio">
                     <div className="logo">
                         <img src="http://fakeimg.pl/300x100/000/fff?text=Find_a_Place&font=lobster"></img>
                     </div>
