@@ -11,15 +11,22 @@ const google=window.google
 class EventNew extends Component {
 
     state = {
-        place: {}
+        place: {},
+        placesService: null,
+        map: null
     }
 
     componentDidMount() {
 
         let map = new google.maps.Map( this._map, {
-            center: {lat: -33.866, lng: 151.196},
+            center: {lat: 19.4326018, lng: -99.1332049},
             zoom: 15
         });
+
+        let placesService = new google.maps.places.PlacesService( map )
+        
+        this.setState({ placesService, map })
+
   
     }
     fetchPlaceDetails = async ( placeId ) => {
@@ -27,9 +34,8 @@ class EventNew extends Component {
         // let placeDetails = await axios.get(`http://maps.googleapis.com/maps/api/place/details/output?placeid=${placeId}&key=AIzaSyANqEh1UHisN_xuijvkhSgXMEILM5I-6IQ`)
 
         // console.log( placeDetails );
-        let service = new google.maps.places.PlacesService( this._map )
         
-        service.getDetails({
+        this.state.placesService.getDetails({
             placeId: placeId
         }, (result,status) => {
             
@@ -49,6 +55,19 @@ class EventNew extends Component {
                 })        
 
             }
+
+            let marker = new google.maps.Marker({
+                map: this.state.map,
+                position: result.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                console.log( "clicked marker", marker )
+            });
+
+            this.state.map.setCenter( marker.getPosition() )
+
+            
 
 
             this.setState({ place })
@@ -74,13 +93,13 @@ class EventNew extends Component {
 
                 <form>
     
-                    <section ref={el=>this._map=el} id="map"></section>
+                    <section ref={el=>this._map=el} className="map"></section>
 
                     <Geosuggest
                         className="Geosuggest"
                         ref={el=>this._geoSuggest=el}
                         placeholder="Escribe el nombre de un Lugar"
-                        location={new google.maps.LatLng(19.4978,-99.1269)}
+                        location={new google.maps.LatLng(19.4326018,-99.1332049)}
                         radius="30000"
                         onSuggestSelect={ (suggestion) => {
                             console.log( suggestion )
