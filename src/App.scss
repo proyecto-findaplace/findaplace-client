@@ -1,0 +1,28 @@
+* {
+    outline: 1px solid #def;
+}
+
+header#main-header {
+    height: 10vh;
+}
+
+main#main-container {
+
+    height: 85vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &>* {
+        max-width: 300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+footer#main-footer {
+    height: 5vh;
+}
