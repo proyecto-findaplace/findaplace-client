@@ -8,6 +8,10 @@ import Login from './components/User/Login/Login';
 import MainHeader from './components/general/MainHeader/MainHeader';
 import Home from './components/general/Home/Home';
 
+import PlacesList from './components/Places/PlacesList/PlacesList';
+import EventsList from './components/Events/EventsList/EventsList';
+import UserAccount from './components/User/UserAccount/UserAccount';
+
 class App extends Component {
   render() {
     return (
@@ -24,9 +28,9 @@ class App extends Component {
           <Route exact path="/usuario/eventos" component={Home}/>
           <Route exact path="/usuario/reservaciones" component={Home}/>
           
-          <Route exact path="/lugares" component={Home}/>
-          <Route exact path="/eventos" component={Home}/>
-          <Route exact path="/mi-cuenta" component={Home}/>
+          <Route exact path="/lugares" component={PlacesList}/>
+          <Route exact path="/eventos" component={EventsList}/>
+          <Route exact path="/mi-cuenta" component={UserAccount}/>
 
         </main>
 
