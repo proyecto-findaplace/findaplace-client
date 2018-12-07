@@ -7,6 +7,13 @@ class MainHeader extends Component {
     render() {
         return (
             <header id="main-header" className="MainHeader">
+                
+                <Link className="logo_container" to="/">
+                    <div className="logo">
+                        <img src="http://fakeimg.pl/300x100/000/fff?text=Find_a_Place&font=lobster"></img>
+                    </div>
+                </Link>
+
                 <nav>
                     <ul>
                         <li>
