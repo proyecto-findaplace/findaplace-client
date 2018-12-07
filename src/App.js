@@ -6,6 +6,7 @@ import { Route, Link } from 'react-router-dom';
 import Login from './components/User/Login/Login';
 
 import MainHeader from './components/general/MainHeader/MainHeader';
+import MainFooter from './components/general/MainFooter/MainFooter';
 import Home from './components/general/Home/Home';
 
 import PlacesList from './components/Places/PlacesList/PlacesList';
@@ -39,9 +40,7 @@ class App extends Component {
 
         </main>
 
-        <footer id="main-footer">
-          footer
-        </footer>
+        <MainFooter></MainFooter>
         
 
       </div>
