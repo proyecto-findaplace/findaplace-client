@@ -23,6 +23,7 @@ class EventNew extends Component {
         map: null
     }
 
+
     async componentDidMount() {
 
 
@@ -48,15 +49,6 @@ class EventNew extends Component {
     }
 
 
-    handleNameChange = ( event ) => {
-        let name = event.target.value;
-        this.setState({ name })
-    }
-
-    handleDescriptionChange = ( event ) => {
-        let description = event.target.value;
-        this.setState({ description })
-    }
 
 
     fetchPlaceDetails = async ( placeId ) => {
@@ -114,10 +106,65 @@ class EventNew extends Component {
 
 
 
+    
+    handleNameChange = ( event ) => {
+        let name = event.target.value;
+        this.setState({ name })
+    }
+
+    handleDescriptionChange = ( event ) => {
+        let description = event.target.value;
+        this.setState({ description })
+    }
+
+
+    handleCategorySelection = (category_id) => {
+
+        let eventCategories = this.state.eventCategories;
+
+        if( eventCategories.includes( category_id ) ) {
+
+            eventCategories = eventCategories.filter(
+                eventCategory => eventCategory !== category_id
+            )            
+
+        } else {
+
+            eventCategories.push( category_id )
+
+        }
+
+        this.setState({ eventCategories })
+
+    }
+
+
+
     displayEventCategoryList = () => {
+        
+        let classNames;
 
         return this.state.availableEventCategories.map(
-            category => <li key={'event_category-'+category.id}>{category.name}</li>
+            category => {
+                {
+                    
+                    classNames = "event-category";
+            
+                    if( this.state.eventCategories.includes( category.id ) ) {
+                        classNames += " selected";
+                    }
+            
+                }
+                return (
+                    <li
+                    className={classNames}
+                    onClick={() => this.handleCategorySelection(category.id)}
+                    key={'event_category-'+category.id}>
+                        {category.name}
+                    </li>
+                )
+            }
+
         )
 
     }

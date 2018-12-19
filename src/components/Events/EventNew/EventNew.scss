@@ -3,6 +3,11 @@
     display: block !important;
     // flex-direction: column;
 
+    .event-category.selected {
+      background-color: black;
+      color: #fff;
+    }
+
     * {
         max-width: 100%;
     }
