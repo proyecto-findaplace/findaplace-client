@@ -1,3 +1,7 @@
 # Find A Place
 
-React app
+Aplicativo para descubrir lugares dónde organizar eventos.
+
+- Recomendaciones
+- Invitaciones
+- Reservaciones
