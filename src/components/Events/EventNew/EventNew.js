@@ -11,13 +11,31 @@ const google=window.google
 class EventNew extends Component {
 
     state = {
+        availableEventCategories: [],
+
+        name: '',
+        description: '',
+        eventCategories: [],
+
+
         place: {},
         placesService: null,
         map: null
     }
 
-    componentDidMount() {
 
+    async componentDidMount() {
+
+
+        try {
+            const response = await axios.get('http://localhost:4000/event_categories');
+            this.setState({
+               availableEventCategories: response.data 
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        
         let map = new google.maps.Map( this._map, {
             center: {lat: 19.4326018, lng: -99.1332049},
             zoom: 15
@@ -29,6 +47,10 @@ class EventNew extends Component {
 
   
     }
+
+
+
+
     fetchPlaceDetails = async ( placeId ) => {
 
         // let placeDetails = await axios.get(`http://maps.googleapis.com/maps/api/place/details/output?placeid=${placeId}&key=AIzaSyANqEh1UHisN_xuijvkhSgXMEILM5I-6IQ`)
@@ -83,7 +105,75 @@ class EventNew extends Component {
     }
 
 
+
+    
+    handleNameChange = ( event ) => {
+        let name = event.target.value;
+        this.setState({ name })
+    }
+
+    handleDescriptionChange = ( event ) => {
+        let description = event.target.value;
+        this.setState({ description })
+    }
+
+
+    handleCategorySelection = (category_id) => {
+
+        let eventCategories = this.state.eventCategories;
+
+        if( eventCategories.includes( category_id ) ) {
+
+            eventCategories = eventCategories.filter(
+                eventCategory => eventCategory !== category_id
+            )            
+
+        } else {
+
+            eventCategories.push( category_id )
+
+        }
+
+        this.setState({ eventCategories })
+
+    }
+
+
+
+    displayEventCategoryList = () => {
+        
+        let classNames;
+
+        return this.state.availableEventCategories.map(
+            category => {
+                {
+                    
+                    classNames = "event-category";
+            
+                    if( this.state.eventCategories.includes( category.id ) ) {
+                        classNames += " selected";
+                    }
+            
+                }
+                return (
+                    <li
+                    className={classNames}
+                    onClick={() => this.handleCategorySelection(category.id)}
+                    key={'event_category-'+category.id}>
+                        {category.name}
+                    </li>
+                )
+            }
+
+        )
+
+    }
+
+
+
     render() {
+
+        
         return (
             <section className="EventNew">
                 
@@ -93,6 +183,43 @@ class EventNew extends Component {
 
                 <form>
     
+                    <label>
+                        <span>
+                            Nombre
+                        </span>
+
+                        <input
+                        name="name"
+                        type="text"
+                        value={this.state.name}
+                        onChange={this.handleNameChange} />
+
+                    </label>
+
+                    <label>
+                        <span>
+                            Descripción
+                        </span>
+
+                        <textarea
+                        name="description"
+                        type="text"
+                        value={this.state.description}
+                        onChange={this.handleDescriptionChange} />
+
+                    </label>
+
+                    <h4>
+                        Categorías
+                    </h4>         
+
+                    <ul>
+                        
+                        { this.displayEventCategoryList() }
+
+                    </ul>           
+
+
                     <section ref={el=>this._map=el} className="map"></section>
 
                     <Geosuggest
