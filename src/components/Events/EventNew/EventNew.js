@@ -12,6 +12,11 @@ class EventNew extends Component {
         name: '',
         description: '',
         eventCategories: [],
+
+        placeSearchText: '',
+        placeSuggestions: [],
+        place: {}
+        
     }
 
     async componentDidMount() {
@@ -39,7 +44,12 @@ class EventNew extends Component {
         this.setState({ description })
     }
 
+    handlePlaceSearchTextChange = ( event ) => {
+        let placeSearchText = event.target.value;
+        this.setState({ placeSearchText });
 
+        this.updatePlaceSuggestionsList();
+    }
 
 
     handleCategorySelection = (category_id) => {
@@ -65,6 +75,47 @@ class EventNew extends Component {
 
 
 
+
+    async updatePlaceSuggestionsList() {
+
+        if( !! this.state.placeSearchText ) {
+            try {
+
+                const response = await axios.get(`http://localhost:4000/places?name_like=${this.state.placeSearchText}`);
+                const placeSuggestions = response.data;
+                this.setState({placeSuggestions});
+            } 
+            catch (error) {
+
+                console.log(error);
+                
+            }
+                
+                
+
+
+        }
+
+    }
+
+
+
+
+    displayPlaceSuggestionList = () => {
+
+        
+        if( !! this.state.placeSuggestions ) {
+
+            return this.state.placeSuggestions.map( placeSuggestion => (
+                <li key={placeSuggestion.name.toLowerCase().replace(" ", "-") }>
+                    {placeSuggestion.name}
+                </li>
+            ))
+
+        }
+
+
+    }
 
     displayEventCategoryList = () => {
         
@@ -95,6 +146,8 @@ class EventNew extends Component {
 
     }
 
+
+    
 
     render() {
 
@@ -128,11 +181,30 @@ class EventNew extends Component {
 
                         <textarea
                         name="description"
-                        type="text"
                         value={this.state.description}
                         onChange={this.handleDescriptionChange} />
 
                     </label>
+
+
+
+                    <label>
+                        <span>
+                            Lugar
+                        </span>
+
+                        <input
+                        name="placeSearchTexgt"
+                        type="text"
+                        value={this.state.placeName}
+                        onChange={this.handlePlaceSearchTextChange} />
+
+                        <ul className="PlaceSuggestions">
+                            { this.displayPlaceSuggestionList() }
+                        </ul>
+
+                    </label>
+
 
                     <h4>
                         Categorías
