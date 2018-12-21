@@ -12,13 +12,7 @@ class EventNew extends Component {
         name: '',
         description: '',
         eventCategories: [],
-
-
-        place: {},
-        placesService: null,
-        map: null
     }
-
 
     async componentDidMount() {
 
@@ -31,13 +25,10 @@ class EventNew extends Component {
         } catch (error) {
             console.error(error);
         }
-        
-      
+  
     }
 
 
-
-    
     handleNameChange = ( event ) => {
         let name = event.target.value;
         this.setState({ name })
@@ -47,6 +38,8 @@ class EventNew extends Component {
         let description = event.target.value;
         this.setState({ description })
     }
+
+
 
 
     handleCategorySelection = (category_id) => {
@@ -68,6 +61,8 @@ class EventNew extends Component {
         this.setState({ eventCategories })
 
     }
+
+
 
 
 
@@ -99,7 +94,6 @@ class EventNew extends Component {
         )
 
     }
-
 
 
     render() {
@@ -149,6 +143,7 @@ class EventNew extends Component {
                         { this.displayEventCategoryList() }
 
                     </ul>           
+
 
 
                 </form>
