@@ -15,6 +15,11 @@ class Home extends Component {
                     <ul>
                                              
                         <li>
+                            <Link to="/lugar/nuevo">
+                                Registrar Lugar
+                            </Link>
+                        </li>
+                        <li>
                             <Link to="/usuario/evento/nuevo">
                                 Crear Evento
                             </Link>

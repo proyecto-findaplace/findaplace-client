@@ -10,7 +10,10 @@ import MainFooter from './components/general/MainFooter/MainFooter';
 import Home from './components/general/Home/Home';
 
 import PlacesList from './components/Places/PlacesList/PlacesList';
+import PlaceNew from './components/Places/PlaceNew/PlaceNew';
+
 import EventsList from './components/Events/EventsList/EventsList';
+
 import ReservationsList from './components/Reservations/ReservationsList/ReservationsList';
 
 
@@ -34,6 +37,7 @@ class App extends Component {
           <Route exact path="/usuario/eventos" component={EventsList}/>
           <Route exact path="/usuario/reservaciones" component={ReservationsList}/>
           
+          <Route exact path="/lugar/nuevo" component={PlaceNew}/>
           <Route exact path="/lugares" component={PlacesList}/>
           <Route exact path="/eventos" component={EventsList}/>
           <Route exact path="/mi-cuenta" component={UserAccount}/>
