@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import './EventNew.scss';
 
+const google=window.google;
+
+
 class EventNew extends Component {
 
     state = {
@@ -15,7 +18,9 @@ class EventNew extends Component {
 
         placeSearchText: '',
         placeSuggestions: [],
-        place: null
+        place: null,
+
+        map: null
         
     }
 
@@ -31,6 +36,8 @@ class EventNew extends Component {
             console.error(error);
         }
   
+
+
     }
 
 
@@ -72,9 +79,38 @@ class EventNew extends Component {
 
     }
 
-    handlePlaceSuggestionSelection = (place) => {
+    
+    handlePlaceSuggestionSelection = async (place) => {
+
         let placeSearchText = "";
-        this.setState({ place, placeSearchText });
+        
+        await this.setState({place, placeSearchText})
+        
+
+        let map = new google.maps.Map( this._map, {
+            center: {lat: 19.4326018, lng: -99.1332049},
+            zoom: 15
+        });
+        
+        let geolocation = {
+            lat: parseFloat(place.lat),
+            lng: parseFloat(place.lng),
+        }
+        
+        let marker = new google.maps.Marker({
+            map: map,
+            position: geolocation
+        });
+        
+        
+        google.maps.event.addListener(marker, 'click', function() {
+            console.log( "clicked marker", marker )
+        });
+        
+        map.setCenter( marker.getPosition() )
+        
+        
+        // this.setState({ map });
 
     }
 
@@ -239,6 +275,17 @@ class EventNew extends Component {
                                 x
                             </button>
                         </header>
+
+                        <section className="address">
+                            {this.state.place.address}
+                        </section>
+
+                        <section className="image">
+                            <img src={this.state.place.image}/>
+                        </section>
+
+                        <section ref={el=>this._map=el} className="map"></section>
+
                     </section>
                     
                     }

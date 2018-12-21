@@ -34,8 +34,25 @@
           flex-shrink: 1;
         }
       }
-    }
 
+
+      .address {
+        font-size: .85rem;
+      }
+
+      .image {
+        height: 10vh;
+        img {
+          height: 100%;
+        }
+      }
+
+  
+      .map {
+        height: 20vh;
+      }
+      
+    }
 
   /**
   * The geosuggest module
