@@ -165,6 +165,18 @@ class EventNew extends Component {
     }
 
 
+    handleInvitationEmailChange = (event,index) => {
+
+        let newInvitation = event.target.value;
+
+        let invitations = this.state.invitations;
+
+        invitations[ index ] = newInvitation;
+
+        this.setState({ invitations })
+
+    }
+
     handleAddNewInvitation = (event) => {
         
         event.preventDefault();
@@ -263,7 +275,13 @@ class EventNew extends Component {
         return invitations.map( (invitation,index) => {
             console.log(invitation,index)
             return <li key={`invitation-${Math.random()}`}>
-                <input name="email" value={invitation}/>
+                
+                <input
+                name="email"
+                onChange={(event)=>this.handleInvitationEmailChange(event,index)}
+                value={invitation}
+                />
+                
                 <button onClick={()=>this.handleDeleteInvitation(invitation)}>
                     x
                 </button>
