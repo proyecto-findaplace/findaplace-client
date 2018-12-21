@@ -32,7 +32,9 @@ class EventNew extends Component {
         endDateTime: null,
 
         isPublic: false,
-        hasReservation: false
+        hasReservation: false,
+
+        invitations: []
         
     }
 
@@ -163,6 +165,21 @@ class EventNew extends Component {
     }
 
 
+    handleAddNewInvitation = (event) => {
+        
+        event.preventDefault();
+        
+        let invitations = this.state.invitations
+        invitations.push("");
+        this.setState({ invitations });
+
+    }
+
+    handleDeleteInvitation = ( invitation ) => {
+        let invitations = this.state.invitations.filter( stateInvitation => stateInvitation != invitation )
+        this.setState({ invitations });
+    }
+
 
     async updatePlaceSuggestionsList() {
 
@@ -238,6 +255,22 @@ class EventNew extends Component {
 
     }
 
+
+    displayInvitationsList = () => {
+        let invitations = [...this.state.invitations,""];
+        // invitations.push("")
+        
+        return invitations.map( (invitation,index) => {
+            console.log(invitation,index)
+            return <li key={`invitation-${Math.random()}`}>
+                <input name="email" value={invitation}/>
+                <button onClick={()=>this.handleDeleteInvitation(invitation)}>
+                    x
+                </button>
+            </li>
+        })
+
+    }
 
     
 
@@ -395,6 +428,23 @@ class EventNew extends Component {
                         />.
                     </label>
 
+
+                    <section className="EventInvitations">
+                        <header>
+                            <h4>
+                                Invitaciones por e-mail:
+                            </h4>
+                        </header>
+                        
+                        <ul>
+                            { this.displayInvitationsList() }
+                        </ul>
+                        <footer>
+                            <button onClick={this.handleAddNewInvitation}>
+                                Añadir +
+                            </button>
+                        </footer>
+                    </section>
 
                 </form>
 
