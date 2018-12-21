@@ -15,7 +15,7 @@ class EventNew extends Component {
 
         placeSearchText: '',
         placeSuggestions: [],
-        place: {}
+        place: null
         
     }
 
@@ -72,6 +72,16 @@ class EventNew extends Component {
 
     }
 
+    handlePlaceSuggestionSelection = (place) => {
+        let placeSearchText = "";
+        this.setState({ place, placeSearchText });
+
+    }
+
+    clearPlaceSelection = () => {
+        let place = null;
+        this.setState({place});
+    }
 
 
 
@@ -107,7 +117,10 @@ class EventNew extends Component {
         if( !! this.state.placeSuggestions ) {
 
             return this.state.placeSuggestions.map( placeSuggestion => (
-                <li key={placeSuggestion.name.toLowerCase().replace(" ", "-") }>
+                <li
+                    key={placeSuggestion.name.toLowerCase().replace(" ", "-") }
+                    onClick={ () => this.handlePlaceSuggestionSelection( placeSuggestion ) }
+                >
                     {placeSuggestion.name}
                 </li>
             ))
@@ -187,23 +200,48 @@ class EventNew extends Component {
                     </label>
 
 
-
+                    {
+                    
+                    ! this.state.place
+                    
+                    ?
+                    
                     <label>
                         <span>
                             Lugar
                         </span>
 
                         <input
-                        name="placeSearchTexgt"
+                        name="placeSearchText"
                         type="text"
-                        value={this.state.placeName}
+                        value={this.state.placeSearchText}
                         onChange={this.handlePlaceSearchTextChange} />
-
-                        <ul className="PlaceSuggestions">
-                            { this.displayPlaceSuggestionList() }
-                        </ul>
+                        
+                        {
+                            !! this.state.placeSearchText &&
+                            <ul className="PlaceSuggestions">
+                                { this.displayPlaceSuggestionList() }
+                            </ul>
+                        }
 
                     </label>
+                    
+                    :
+                    
+                    <section className="PlaceSelection">
+                        <header>
+
+                            <h4 className="title">
+                                {this.state.place.name}
+                            </h4>
+
+                            <button onClick={()=>this.clearPlaceSelection()}>
+                                x
+                            </button>
+                        </header>
+                    </section>
+                    
+                    }
 
 
                     <h4>
