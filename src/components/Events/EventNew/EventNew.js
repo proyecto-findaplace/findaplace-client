@@ -195,6 +195,33 @@ class EventNew extends Component {
     }
 
 
+
+    handleEventSave = async (event) => {
+        event.preventDefault();
+
+        let payload = {
+            name: this.state.name,
+            description: this.state.description,
+            event_categories: this.state.selectedEventCategories,
+            place: this.state.place.id,
+            start_date: this.state.startDateTime,
+            end_date: this.state.endDateTime,
+            public: this.state.isPublic,
+            reservation: this.state.hasReservation,
+            invitations: this.state.invitations,
+        };
+        try {
+
+            let response = await axios.post(`http://localhost:4000/events`, payload );
+            console.log( response )
+
+        } catch( error ) {
+            console.log(error )
+        }
+
+    }
+
+
     async updatePlaceSuggestionsList() {
 
         if( !! this.state.placeSearchText ) {
@@ -465,6 +492,9 @@ class EventNew extends Component {
                         </footer>
                     </section>
 
+                    <button className="EventSave" onClick={(event)=>this.handleEventSave(event)}>
+                        Guardar
+                    </button>
                 </form>
 
             </section>
