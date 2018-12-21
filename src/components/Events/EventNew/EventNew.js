@@ -4,7 +4,10 @@ import axios from 'axios';
 
 import './EventNew.scss';
 
+import DateTimePicker from 'react-datetime-picker';
+
 const google=window.google;
+
 
 
 class EventNew extends Component {
@@ -23,7 +26,13 @@ class EventNew extends Component {
         placeSuggestions: [],
         place: null,
 
-        map: null
+        map: null,
+
+        startDateTime: null,
+        endDateTime: null,
+
+        isPublic: false,
+        hasReservation: false
         
     }
 
@@ -126,13 +135,32 @@ class EventNew extends Component {
 
     }
 
-    clearPlaceSelection = () => {
+    handleClearPlaceSelection = () => {
         let place = null;
         let availableEventCategories = this.state.allEventCategories.map( category => category.id );
         let selectedEventCategories = [];
         this.setState({place, availableEventCategories, selectedEventCategories});
     }
 
+
+    handleStartDateTimeChange = (startDateTime) => {
+        this.setState({ startDateTime })
+    }
+    
+    handleEndDateTimeChange = (endDateTime) => {
+        this.setState({ endDateTime })
+    }
+
+
+    handleIsPublicChange = (event) => {
+        let isPublic = event.target.checked ? true : false;
+        this.setState({ isPublic })
+    }
+
+    handleHasReservationChange = (event) => {
+        let hasReservation = event.target.checked ? true : false;
+        this.setState({ hasReservation })
+    }
 
 
 
@@ -286,7 +314,7 @@ class EventNew extends Component {
                                 {this.state.place.name}
                             </h4>
 
-                            <button onClick={()=>this.clearPlaceSelection()}>
+                            <button onClick={()=>this.handleClearPlaceSelection()}>
                                 x
                             </button>
                         </header>
@@ -316,6 +344,56 @@ class EventNew extends Component {
 
                     </ul>           
 
+                    <h4>
+                        Horarios
+                    </h4>
+                    
+                    <label>
+                        <span>
+                            Inicio
+                        </span>
+                        <DateTimePicker
+                        minDate={ new Date() }
+                        onChange={(date)=>this.handleStartDateTimeChange(date)}
+                        value={this.state.startDateTime}
+                        />.
+                    </label>
+
+                    <label>
+                        <span>
+                            Final
+                        </span>
+                        <DateTimePicker
+                        minDate={ this.state.startDateTime }
+                        onChange={(date)=>this.handleEndDateTimeChange(date)}
+                        value={this.state.endDateTime}
+                        />.
+                    </label>
+
+
+                    <label>
+                        <span>
+                            ¿Evento Público?
+                        </span>
+                        <input
+                        name="isPublic"
+                        type="checkbox"
+                        onChange={this.handleIsPublicChange}
+                        value={ this.state.isPublic }
+                        />.
+                    </label>
+
+                    <label>
+                        <span>
+                            ¿Hacer Reservación?
+                        </span>
+                        <input
+                        name="hasReservation"
+                        type="checkbox"
+                        onChange={this.handleHasReservationChange}
+                        value={ this.state.hasReservation }
+                        />.
+                    </label>
 
 
                 </form>
