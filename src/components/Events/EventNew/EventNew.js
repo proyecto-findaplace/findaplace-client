@@ -10,11 +10,14 @@ const google=window.google;
 class EventNew extends Component {
 
     state = {
-        availableEventCategories: [],
 
+        
         name: '',
         description: '',
-        eventCategories: [],
+
+        allEventCategories: [],
+        availableEventCategories: [],
+        selectedEventCategories: [],
 
         placeSearchText: '',
         placeSuggestions: [],
@@ -30,7 +33,8 @@ class EventNew extends Component {
         try {
             const response = await axios.get('http://localhost:4000/event_categories');
             this.setState({
-               availableEventCategories: response.data 
+               allEventCategories: response.data,
+               availableEventCategories: response.data.map( category => category.id )
             });
         } catch (error) {
             console.error(error);
@@ -61,21 +65,21 @@ class EventNew extends Component {
 
     handleCategorySelection = (category_id) => {
 
-        let eventCategories = this.state.eventCategories;
+        let selectedEventCategories = this.state.selectedEventCategories;
 
-        if( eventCategories.includes( category_id ) ) {
+        if( selectedEventCategories.includes( category_id ) ) {
 
-            eventCategories = eventCategories.filter(
+            selectedEventCategories = selectedEventCategories.filter(
                 eventCategory => eventCategory !== category_id
             )            
 
         } else {
 
-            eventCategories.push( category_id )
+            selectedEventCategories.push( category_id )
 
         }
 
-        this.setState({ eventCategories })
+        this.setState({ selectedEventCategories })
 
     }
 
@@ -84,7 +88,15 @@ class EventNew extends Component {
 
         let placeSearchText = "";
         
-        await this.setState({place, placeSearchText})
+        let selectedEventCategories = [];
+        let availableEventCategories = place.event_categories;
+
+        await this.setState({
+            place,
+            placeSearchText,
+            availableEventCategories,
+            selectedEventCategories
+        })
         
 
         let map = new google.maps.Map( this._map, {
@@ -116,7 +128,9 @@ class EventNew extends Component {
 
     clearPlaceSelection = () => {
         let place = null;
-        this.setState({place});
+        let availableEventCategories = this.state.allEventCategories.map( category => category.id );
+        let selectedEventCategories = [];
+        this.setState({place, availableEventCategories, selectedEventCategories});
     }
 
 
@@ -171,22 +185,23 @@ class EventNew extends Component {
         let classNames;
 
         return this.state.availableEventCategories.map(
-            category => {
-                {
-                    
-                    classNames = "event-category";
-            
-                    if( this.state.eventCategories.includes( category.id ) ) {
-                        classNames += " selected";
-                    }
-            
+            category_id => {
+                
+                let category = this.state.allEventCategories.find( category => category.id == category_id);
+                let category_name = category.name;
+
+                classNames = "event-category";
+        
+                if( this.state.selectedEventCategories.includes( category_id ) ) {
+                    classNames += " selected";
                 }
+            
                 return (
                     <li
                     className={classNames}
-                    onClick={() => this.handleCategorySelection(category.id)}
-                    key={'event_category-'+category.id}>
-                        {category.name}
+                    onClick={() => this.handleCategorySelection(category_id)}
+                    key={'event_category-'+category_id}>
+                        {category_name}
                     </li>
                 )
             }
