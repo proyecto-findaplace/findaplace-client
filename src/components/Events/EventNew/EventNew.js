@@ -166,7 +166,9 @@ class EventNew extends Component {
 
 
     handleInvitationEmailChange = (event,index) => {
-
+        
+        event.preventDefault()
+        
         let newInvitation = event.target.value;
 
         let invitations = this.state.invitations;
@@ -270,10 +272,9 @@ class EventNew extends Component {
 
     displayInvitationsList = () => {
         let invitations = [...this.state.invitations,""];
-        // invitations.push("")
         
         return invitations.map( (invitation,index) => {
-            console.log(invitation,index)
+            
             return <li key={`invitation-${Math.random()}`}>
                 
                 <input
